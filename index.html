@@ -503,7 +503,7 @@ body::before {
         <text x="308" y="98" font-family="Oswald,sans-serif" font-size="11" fill="#aaa" text-anchor="middle">80%</text>
         <text x="354" y="208" font-family="Oswald,sans-serif" font-size="11" fill="#aaa" text-anchor="middle">100%</text>
         <!-- Naald (pivot at 200,200, points up at rest=-180deg) -->
-        <g id="needleGroup" style="transform-origin: 200px 200px; transform: rotate(-180deg);">
+        <g id="needleGroup" style="transform-origin: 200px 200px; transform: rotate(-90deg);">
           <line x1="200" y1="200" x2="200" y2="72" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
           <circle cx="200" cy="200" r="7" fill="#ccc" stroke="#555" stroke-width="2"/>
         </g>
@@ -582,13 +582,13 @@ document.querySelectorAll(".open-textarea").forEach(function(ta) {
   ta.addEventListener("input", updateProgress);
 });
 
-// Needle angle: pct 0=−180deg, 100=0deg
+// Needle angle: pct 0=-180deg, 100=0deg
 function pctToAngle(pct) {
-  return -180 + (pct / 100) * 180;
+  return -90 + (pct / 100) * 180;
 }
 
 function animateNeedle(targetPct) {
-  var startAngle = -180;
+  var startAngle = -90;
   var targetAngle = pctToAngle(targetPct);
   var overshoot = targetAngle + 8;
   var needle = document.getElementById("needleGroup");
@@ -617,7 +617,7 @@ function animateNeedle(targetPct) {
     }
 
     needle.style.transform = "rotate(" + angle + "deg)";
-    var displayPct = Math.round(((angle - (-180)) / 180) * 100);
+    var displayPct = Math.round(((angle - (-90)) / 180) * 100);
     displayPct = Math.max(0, Math.min(100, displayPct));
     pctEl.textContent = displayPct + "%";
 
@@ -680,19 +680,11 @@ function submitTentamen() {
 
   // WhatsApp
   var waText = encodeURIComponent(
-    "TOELATINGSTENTAMEN HOOGSPANNINGSGASTEN
-
-" +
-    "Aspirant: " + name + "
-" +
-    "Score: " + pct + "% (" + correct + "/" + total + " goed)
-" +
-    "Niveau: " + label.title + "
-
-" +
-    "Netcongestie: " + open1.substring(0, 200) + (open1.length > 200 ? "..." : "") + "
-
-" +
+    "TOELATINGSTENTAMEN HOOGSPANNINGSGASTEN\n\n" +
+    "Aspirant: " + name + "\n" +
+    "Score: " + pct + "% (" + correct + "/" + total + " goed)\n" +
+    "Niveau: " + label.title + "\n\n" +
+    "Netcongestie: " + open1.substring(0, 200) + (open1.length > 200 ? "..." : "") + "\n\n" +
     "Bijdrage: " + open2.substring(0, 200) + (open2.length > 200 ? "..." : "")
   );
   document.getElementById("waBtn").href = "https://wa.me/?text=" + waText;
